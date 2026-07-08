@@ -52,12 +52,9 @@ jobs:
 
       - name: Download transcli
         uses: actions/download-artifact@v8
-        with:
-          path: artifacts
 
       - name: Release
         uses: softprops/action-gh-release@v3
         with:
-          working_directory: artifacts
           files: |
-            transcli-*.zip
+            ./*/transcli-*.zip
