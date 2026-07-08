@@ -2,6 +2,9 @@ name: GraalVM Build and Release
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - v*
 
 jobs:
   build:
@@ -31,7 +34,26 @@ jobs:
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
-          name: transcli-${{ matrix.os }}-${{ runner.arch }}
+          name: transcli-${{ matrix.os }}-${{ runner.arch }}-${{ github.ref_name }}
           path: |
             ./build/native/nativeCompile/transcli
           if-no-files-found: error
+
+  release:
+    name: Release transcli
+    needs: build
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download transcli
+        uses: actions/download-artifact@v8
+
+      - name: Release
+        uses: softprops/action-gh-release@v3
+        if: github.ref_type == 'tag'
+        with:
+          files: |
+            transcli-*
