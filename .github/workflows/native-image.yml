@@ -57,4 +57,4 @@ jobs:
         if: github.ref_type == 'tag'
         with:
           files: |
-            transcli-*
+            transcli-*.zip
