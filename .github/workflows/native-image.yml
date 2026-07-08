@@ -53,6 +53,10 @@ jobs:
       - name: Download transcli
         uses: actions/download-artifact@v8
 
+      - name: List artifacts
+        run: |
+          ls -lR ./
+
       - name: Release
         uses: softprops/action-gh-release@v3
         with:
